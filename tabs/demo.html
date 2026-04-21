@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>tabs — Demo</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --fg: #e2e8f0;
+      --accent: #38bdf8;
+      --muted: #94a3b8;
+      --border: #334155;
+      --card: #1e293b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    main { max-width: 640px; margin: 0 auto; padding: 2rem; }
+    h1 { font-size: 2.25rem; }
+
+    [data-tabs] {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 0.5rem 1.5rem 1.5rem;
+      margin-top: 2rem;
+    }
+
+    [role="tablist"] {
+      display: flex;
+      gap: 0.25rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+
+    [role="tab"] {
+      appearance: none;
+      background: transparent;
+      border: 0;
+      padding: 0.75rem 1.1rem;
+      margin-bottom: -1px;
+      cursor: pointer;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      font: inherit;
+      transition: color 150ms ease, border-color 150ms ease;
+    }
+    [role="tab"]:hover { color: var(--fg); }
+    [role="tab"][aria-selected="true"] {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      font-weight: 600;
+    }
+
+    [role="tabpanel"] { padding-top: 0.5rem; }
+
+    code {
+      background: #0b1220;
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [role="tab"] { transition: none; }
+    }
+
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+    .vertical[data-tabs] { display: grid; grid-template-columns: 140px 1fr; gap: 1.5rem; }
+    .vertical [role="tablist"] {
+      flex-direction: column;
+      border-bottom: 0;
+      border-right: 1px solid var(--border);
+      align-self: start;
+      margin-bottom: 0;
+    }
+    .vertical [role="tab"] {
+      text-align: left;
+      border-bottom: 0;
+      border-right: 2px solid transparent;
+      margin-bottom: 0;
+      margin-right: -1px;
+    }
+    .vertical [role="tab"][aria-selected="true"] { border-right-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>tabs</h1>
+    <p>Use setas <kbd>←</kbd>/<kbd>→</kbd>, <kbd>Home</kbd>, <kbd>End</kbd> para navegar.
+    No grupo vertical, setas <kbd>↑</kbd>/<kbd>↓</kbd>.</p>
+
+    <h2>Horizontal — ativação automática (padrão)</h2>
+    <div data-tabs>
+      <div role="tablist" aria-label="Documentação">
+        <button role="tab" id="ta1" aria-selected="true"  aria-controls="pa1">Intro</button>
+        <button role="tab" id="ta2" aria-selected="false" aria-controls="pa2" tabindex="-1">Uso</button>
+        <button role="tab" id="ta3" aria-selected="false" aria-controls="pa3" tabindex="-1">API</button>
+      </div>
+      <div id="pa1" role="tabpanel" aria-labelledby="ta1">
+        <p>Conteúdo da <strong>Intro</strong>. Navegue com as setas.</p>
+      </div>
+      <div id="pa2" role="tabpanel" aria-labelledby="ta2" hidden>
+        <p>Conteúdo de <strong>Uso</strong>. Incluir o script, escrever HTML ARIA.</p>
+      </div>
+      <div id="pa3" role="tabpanel" aria-labelledby="ta3" hidden>
+        <p>Conteúdo de <strong>API</strong>. <code>Tabs.init()</code> aceita opções.</p>
+      </div>
+    </div>
+
+    <h2>Vertical — ativação manual</h2>
+    <div data-tabs data-activation="manual" class="vertical">
+      <div role="tablist" aria-orientation="vertical" aria-label="Configurações">
+        <button role="tab" id="tb1" aria-selected="true"  aria-controls="pb1">Perfil</button>
+        <button role="tab" id="tb2" aria-selected="false" aria-controls="pb2" tabindex="-1">Conta</button>
+        <button role="tab" id="tb3" aria-selected="false" aria-controls="pb3" tabindex="-1">Notificações</button>
+      </div>
+      <div id="pb1" role="tabpanel" aria-labelledby="tb1">
+        <p>Aqui você edita o <strong>perfil</strong>.</p>
+      </div>
+      <div id="pb2" role="tabpanel" aria-labelledby="tb2" hidden>
+        <p>Aqui ficam as configurações da <strong>conta</strong>.</p>
+      </div>
+      <div id="pb3" role="tabpanel" aria-labelledby="tb3" hidden>
+        <p>Aqui você gerencia <strong>notificações</strong>.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="tabs.js"></script>
+</body>
+</html>
