@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>input-counter — Demo</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --fg: #e2e8f0;
+      --accent: #38bdf8;
+      --muted: #94a3b8;
+      --card: #1e293b;
+      --border: #334155;
+      --warn: #facc15;
+      --danger: #f87171;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    main { max-width: 560px; margin: 0 auto; padding: 2rem; }
+    h1 { font-size: 2.25rem; margin-bottom: 0.5rem; }
+
+    .field { margin-top: 1.5rem; }
+    label { display: block; margin-bottom: 0.4rem; font-weight: 500; }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.6rem 0.9rem;
+      font: inherit;
+      line-height: 1.5;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--card);
+      color: var(--fg);
+    }
+    textarea { resize: vertical; min-height: 4rem; }
+
+    [data-counter-for] {
+      display: inline-block;
+      margin-top: 0.3rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+    }
+    [data-counter-for].is-near-limit { color: var(--warn); }
+    [data-counter-for].is-over-limit { color: var(--danger); font-weight: 600; }
+
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>input-counter</h1>
+    <p>Digite nos campos e observe os contadores mudarem. Aproxime-se do limite
+    para ver a cor mudar.</p>
+
+    <div class="field">
+      <label for="title">Título (com maxlength)</label>
+      <input type="text" id="title" maxlength="60" aria-describedby="title-counter">
+      <span id="title-counter" data-counter-for="title"></span>
+    </div>
+
+    <div class="field">
+      <label for="bio">Bio (maxlength + template customizado)</label>
+      <textarea id="bio" maxlength="160" aria-describedby="bio-counter" rows="3"></textarea>
+      <span id="bio-counter" data-counter-for="bio" data-template="{remaining} restantes"></span>
+    </div>
+
+    <div class="field">
+      <label for="notes">Notas (sem maxlength)</label>
+      <textarea id="notes" aria-describedby="notes-counter" rows="3"></textarea>
+      <span id="notes-counter" data-counter-for="notes"></span>
+    </div>
+  </main>
+
+  <script src="input-counter.js"></script>
+</body>
+</html>

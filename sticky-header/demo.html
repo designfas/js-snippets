@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sticky-header — Demo</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --fg: #e2e8f0;
+      --accent: #38bdf8;
+      --surface: rgba(15, 23, 42, 0.85);
+      --border: #1e293b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.7;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    [data-sticky-header] {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 1rem 2rem;
+      background: transparent;
+      transition: transform 300ms ease, background-color 200ms ease,
+                  box-shadow 200ms ease, backdrop-filter 200ms ease;
+      will-change: transform;
+    }
+    [data-sticky-header].is-hidden { transform: translateY(-100%); }
+    [data-sticky-header].is-scrolled {
+      background: var(--surface);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [data-sticky-header] { transition: none; }
+    }
+
+    [data-sticky-header] strong { font-size: 1.1rem; }
+    [data-sticky-header] nav { display: flex; gap: 1.2rem; }
+    [data-sticky-header] a { color: var(--fg); text-decoration: none; }
+    [data-sticky-header] a:hover { color: var(--accent); }
+
+    main { max-width: 680px; margin: 0 auto; padding: 2rem; }
+    h1 { font-size: 2.5rem; }
+    section { min-height: 80vh; border-bottom: 1px solid var(--border); padding: 3rem 0; }
+
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <header data-sticky-header>
+    <strong>Logo</strong>
+    <nav>
+      <a href="#sobre">Sobre</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h1>sticky-header</h1>
+      <p>Role para baixo: o header some. Role para cima: ele volta.</p>
+      <p>Assim que você sai dos primeiros 10px de scroll, ele ganha sombra e
+      backdrop blur (classe <code>.is-scrolled</code>).</p>
+    </section>
+
+    <section id="sobre">
+      <h2>Sobre</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Role para baixo
+      e para cima para ver a troca.</p>
+    </section>
+
+    <section id="produtos">
+      <h2>Produtos</h2>
+      <p>Conteúdo para ter espaço suficiente para rolar.</p>
+    </section>
+
+    <section id="contato">
+      <h2>Contato</h2>
+      <p>Continua sendo possível clicar no menu quando ele volta a aparecer.</p>
+    </section>
+  </main>
+
+  <script src="sticky-header.js"></script>
+</body>
+</html>

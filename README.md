@@ -17,15 +17,19 @@ Cada snippet é um `.js` vanilla com UMD wrapper, auto-inicialização no
 
 ## Snippets
 
-| Snippet                                      | O que faz                                                                | Tamanho |
-| -------------------------------------------- | ------------------------------------------------------------------------ | ------- |
-| [`back-to-top`](./back-to-top)               | Botão flutuante "voltar ao topo" que aparece após X pixels de scroll.    | ~1.8 KB |
-| [`copy-to-clipboard`](./copy-to-clipboard)   | Botão copiar texto com feedback visual e anúncio para leitor de tela.    | ~3.5 KB |
-| [`reveal-on-scroll`](./reveal-on-scroll)     | Anima elementos `[data-reveal]` quando entram na viewport.               | ~2.0 KB |
-| [`scroll-progress`](./scroll-progress)       | Barra de progresso de leitura atualizada conforme o scroll.              | ~2.6 KB |
-| [`scroll-spy`](./scroll-spy)                 | Marca o link de nav correspondente à seção visível na viewport.          | ~2.9 KB |
-| [`smooth-scroll`](./smooth-scroll)           | Rolagem suave em cliques de links âncora (`<a href="#secao">`).          | ~3.7 KB |
-| [`theme-toggle`](./theme-toggle)             | Alterna claro/escuro com persistência, segue `prefers-color-scheme`.     | ~3.8 KB |
+| Snippet                                            | O que faz                                                                | Tamanho |
+| -------------------------------------------------- | ------------------------------------------------------------------------ | ------- |
+| [`autoresize-textarea`](./autoresize-textarea)     | Textarea que cresce conforme o usuário digita, com limite opcional.      | ~2.6 KB |
+| [`back-to-top`](./back-to-top)                     | Botão flutuante "voltar ao topo" que aparece após X pixels de scroll.    | ~1.8 KB |
+| [`copy-to-clipboard`](./copy-to-clipboard)         | Botão copiar texto com feedback visual e anúncio para leitor de tela.    | ~3.5 KB |
+| [`input-counter`](./input-counter)                 | Contador de caracteres com `aria-live` para leitores de tela.            | ~2.8 KB |
+| [`reveal-on-scroll`](./reveal-on-scroll)           | Anima elementos `[data-reveal]` quando entram na viewport.               | ~2.0 KB |
+| [`scroll-progress`](./scroll-progress)             | Barra de progresso de leitura atualizada conforme o scroll.              | ~2.6 KB |
+| [`scroll-spy`](./scroll-spy)                       | Marca o link de nav correspondente à seção visível na viewport.          | ~2.9 KB |
+| [`smooth-scroll`](./smooth-scroll)                 | Rolagem suave em cliques de links âncora (`<a href="#secao">`).          | ~3.7 KB |
+| [`sticky-header`](./sticky-header)                 | Header que some ao rolar para baixo e reaparece ao rolar para cima.      | ~2.2 KB |
+| [`tabs`](./tabs)                                   | Tabs com ARIA Pattern, roving tabindex e navegação por teclado.          | ~4.2 KB |
+| [`theme-toggle`](./theme-toggle)                   | Alterna claro/escuro com persistência, segue `prefers-color-scheme`.     | ~3.8 KB |
 
 > Tamanhos são do arquivo bruto (não minificado, não gzipado).
 
