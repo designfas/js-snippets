@@ -17,11 +17,15 @@ Cada snippet é um `.js` vanilla com UMD wrapper, auto-inicialização no
 
 ## Snippets
 
-| Snippet                                    | O que faz                                                              | Tamanho |
-| ------------------------------------------ | ---------------------------------------------------------------------- | ------- |
-| [`smooth-scroll`](./smooth-scroll)         | Rolagem suave em cliques de links âncora (`<a href="#secao">`).        | ~3.7 KB |
-| [`reveal-on-scroll`](./reveal-on-scroll)   | Anima elementos `[data-reveal]` quando entram na viewport.             | ~2.0 KB |
-| [`back-to-top`](./back-to-top)             | Botão flutuante "voltar ao topo" que aparece após X pixels de scroll.  | ~1.8 KB |
+| Snippet                                      | O que faz                                                                | Tamanho |
+| -------------------------------------------- | ------------------------------------------------------------------------ | ------- |
+| [`back-to-top`](./back-to-top)               | Botão flutuante "voltar ao topo" que aparece após X pixels de scroll.    | ~1.8 KB |
+| [`copy-to-clipboard`](./copy-to-clipboard)   | Botão copiar texto com feedback visual e anúncio para leitor de tela.    | ~3.5 KB |
+| [`reveal-on-scroll`](./reveal-on-scroll)     | Anima elementos `[data-reveal]` quando entram na viewport.               | ~2.0 KB |
+| [`scroll-progress`](./scroll-progress)       | Barra de progresso de leitura atualizada conforme o scroll.              | ~2.6 KB |
+| [`scroll-spy`](./scroll-spy)                 | Marca o link de nav correspondente à seção visível na viewport.          | ~2.9 KB |
+| [`smooth-scroll`](./smooth-scroll)           | Rolagem suave em cliques de links âncora (`<a href="#secao">`).          | ~3.7 KB |
+| [`theme-toggle`](./theme-toggle)             | Alterna claro/escuro com persistência, segue `prefers-color-scheme`.     | ~3.8 KB |
 
 > Tamanhos são do arquivo bruto (não minificado, não gzipado).
 
@@ -45,11 +49,8 @@ Não há build. Basta servir a raiz do repositório:
 python3 -m http.server 8080
 ```
 
-E abrir a demo de cada snippet:
-
-- `http://localhost:8080/smooth-scroll/demo.html`
-- `http://localhost:8080/reveal-on-scroll/demo.html`
-- `http://localhost:8080/back-to-top/demo.html`
+E abrir a demo de cada snippet em `http://localhost:8080/<snippet>/demo.html`,
+por exemplo `http://localhost:8080/smooth-scroll/demo.html`.
 
 ## Licença
 

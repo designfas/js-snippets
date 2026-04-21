@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>theme-toggle — Demo</title>
+  <!-- Script no <head> e sem defer: aplica o tema antes do paint -->
+  <script src="theme-toggle.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0f172a;
+      --muted: #475569;
+      --card: #f1f5f9;
+      --accent: #0284c7;
+      --border: #e2e8f0;
+    }
+    :root[data-theme="dark"] {
+      --bg: #0f172a;
+      --fg: #e2e8f0;
+      --muted: #94a3b8;
+      --card: #1e293b;
+      --accent: #38bdf8;
+      --border: #334155;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--fg);
+      transition: background-color 200ms ease, color 200ms ease;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      body { transition: none; }
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    main { max-width: 680px; margin: 0 auto; padding: 2rem; }
+    h1 { font-size: 2.25rem; margin-top: 0; }
+    p.muted { color: var(--muted); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    code {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+
+    [data-theme-toggle] {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--fg);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: transform 200ms ease, background-color 200ms ease;
+    }
+    [data-theme-toggle]:hover { transform: rotate(15deg); }
+
+    [data-theme-toggle] .sun { display: none; }
+    [data-theme-toggle] .moon { display: inline; }
+    [data-theme-toggle][data-theme="dark"] .sun { display: inline; }
+    [data-theme-toggle][data-theme="dark"] .moon { display: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      [data-theme-toggle] { transition: none; }
+      [data-theme-toggle]:hover { transform: none; }
+    }
+
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>theme-toggle</strong>
+    <button type="button" data-theme-toggle aria-label="Alternar tema">
+      <span class="moon" aria-hidden="true">🌙</span>
+      <span class="sun" aria-hidden="true">☀️</span>
+    </button>
+  </header>
+
+  <main>
+    <h1>Tema claro / escuro</h1>
+    <p class="muted">Clique no botão no canto superior direito. A preferência é
+    salva no <code>localStorage</code>.</p>
+
+    <div class="card">
+      <h2>Como funciona</h2>
+      <p>O script está no <code>&lt;head&gt;</code> e aplica o tema antes do primeiro
+      paint, por isso não existe <em>flash</em> do tema errado em recarregamentos.</p>
+    </div>
+
+    <div class="card">
+      <h2>Segue o sistema</h2>
+      <p>Enquanto você não clicar, muda conforme <code>prefers-color-scheme</code>.
+      Depois do primeiro clique, sua escolha manda.</p>
+    </div>
+
+    <div class="card">
+      <h2>Limpe a preferência</h2>
+      <p>Para voltar a seguir o sistema, abra o DevTools &rarr; Application &rarr;
+      Local Storage e remova a chave <code>theme</code>, ou rode:</p>
+      <pre><code>localStorage.removeItem('theme'); location.reload()</code></pre>
+    </div>
+  </main>
+</body>
+</html>

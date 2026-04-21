@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>copy-to-clipboard — Demo</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --fg: #e2e8f0;
+      --accent: #38bdf8;
+      --ok: #16a34a;
+      --card: #1e293b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    main { max-width: 720px; margin: 0 auto; padding: 2rem; }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+    .example {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .example h2 { margin-top: 0; font-size: 1.25rem; }
+
+    pre {
+      background: #0b1220;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 0 0 1rem;
+    }
+
+    button {
+      font: inherit;
+      background: var(--accent);
+      color: #0f172a;
+      border: 0;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 200ms ease, color 200ms ease;
+    }
+    button.is-copied {
+      background: var(--ok);
+      color: #fff;
+    }
+    button.is-copied::after { content: ' ✓'; }
+
+    @media (prefers-reduced-motion: reduce) {
+      button { transition: none; }
+    }
+
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>copy-to-clipboard</h1>
+    <p>Clique nos botões abaixo. O texto "Copiado!" é anunciado para leitores de tela
+    através de uma região <code>aria-live</code> oculta.</p>
+
+    <div class="example">
+      <h2>Texto literal via <code>data-copy</code></h2>
+      <button type="button" data-copy="npm install js-snippets">
+        Copiar comando
+      </button>
+    </div>
+
+    <div class="example">
+      <h2>Conteúdo de outro elemento via <code>data-copy-target</code></h2>
+      <pre id="code-sample">fetch('/api/users').then(r => r.json())</pre>
+      <button type="button" data-copy-target="#code-sample">
+        Copiar código
+      </button>
+    </div>
+
+    <div class="example">
+      <h2>Rótulo customizado via <code>data-copied-label</code></h2>
+      <button type="button"
+              data-copy="contato@exemplo.com"
+              data-copied-label="E-mail copiado!">
+        Copiar e-mail
+      </button>
+    </div>
+
+    <div class="example">
+      <h2>Valor de um <code>&lt;input&gt;</code></h2>
+      <label>
+        Token:
+        <input type="text" id="token" value="sk-demo-abc123" readonly>
+      </label>
+      <p><button type="button" data-copy-target="#token">Copiar token</button></p>
+    </div>
+  </main>
+
+  <script src="copy-to-clipboard.js"></script>
+</body>
+</html>
