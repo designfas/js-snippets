@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>js-snippets — Mini bibliotecas JavaScript sem dependências</title>
+  <meta name="description" content="Coleção de mini bibliotecas JavaScript focadas em uma coisa só. Zero dependências, acessíveis por padrão, código legível.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="js-snippets">
+  <meta property="og:description" content="11 mini bibliotecas JavaScript sem dependências, acessíveis por padrão.">
+  <meta property="og:type" content="website">
+
+  <!-- theme-toggle no <head> sem defer: aplica o tema antes do paint -->
+  <script src="./theme-toggle/theme-toggle.js"></script>
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0f172a;
+      --muted: #475569;
+      --card: #f8fafc;
+      --border: #e2e8f0;
+      --accent: #0284c7;
+      --accent-fg: #ffffff;
+      --code-bg: #f1f5f9;
+    }
+    :root[data-theme="dark"] {
+      --bg: #0f172a;
+      --fg: #e2e8f0;
+      --muted: #94a3b8;
+      --card: #1e293b;
+      --border: #334155;
+      --accent: #38bdf8;
+      --accent-fg: #0f172a;
+      --code-bg: #0b1220;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.65;
+      background: var(--bg);
+      color: var(--fg);
+      transition: background-color 200ms ease, color 200ms ease;
+    }
+
+    a { color: var(--accent); }
+
+    /* scroll-progress */
+    [data-scroll-progress] {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      transform-origin: left center;
+      transform: scaleX(var(--scroll-progress, 0));
+      background: var(--accent);
+      z-index: 100;
+    }
+
+    /* sticky-header */
+    header[data-sticky-header] {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      background: transparent;
+      transition: transform 300ms ease, background-color 200ms ease,
+                  box-shadow 200ms ease, backdrop-filter 200ms ease;
+      will-change: transform;
+    }
+    header[data-sticky-header].is-hidden { transform: translateY(-100%); }
+    header[data-sticky-header].is-scrolled {
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 1px 0 var(--border), 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+    header .brand { font-weight: 700; font-size: 1.05rem; }
+    header .tools { display: flex; align-items: center; gap: 0.5rem; }
+    header a.github { color: inherit; text-decoration: none; padding: 0.4rem 0.7rem; border-radius: 6px; }
+    header a.github:hover { background: var(--code-bg); }
+
+    [data-theme-toggle] {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--fg);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 200ms ease;
+    }
+    [data-theme-toggle]:hover { transform: rotate(15deg); }
+    [data-theme-toggle] .sun { display: none; }
+    [data-theme-toggle] .moon { display: inline; }
+    [data-theme-toggle][data-theme="dark"] .sun { display: inline; }
+    [data-theme-toggle][data-theme="dark"] .moon { display: none; }
+
+    main { max-width: 960px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+
+    /* Hero */
+    .hero { padding: 4rem 0 2rem; text-align: center; }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .hero .tagline {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 38rem;
+      margin: 0 auto 2rem;
+    }
+    .hero .cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1.1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--fg);
+      transition: transform 150ms ease, background-color 150ms ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: transparent; }
+
+    /* Filosofia */
+    .philo { margin: 4rem 0; }
+    .philo ul {
+      list-style: none; padding: 0; margin: 0;
+      display: grid; gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .philo li {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+    }
+    .philo li strong { display: block; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .philo li span { color: var(--muted); font-size: 0.9rem; }
+
+    /* Snippets grid */
+    .snippets { margin-top: 3rem; }
+    h2 {
+      font-size: 1.75rem;
+      margin: 0 0 1.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .card h3 {
+      margin: 0 0 0.3rem;
+      font-size: 1rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .card p.desc {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+      flex-grow: 1;
+    }
+    .card .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+    }
+    .card .size {
+      background: var(--code-bg);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-variant-numeric: tabular-nums;
+    }
+    .card .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .card .actions a, .card .actions button {
+      font: inherit;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--fg);
+      cursor: pointer;
+    }
+    .card .actions a:hover, .card .actions button:hover { background: var(--code-bg); }
+    .card .actions button.is-copied { background: #16a34a; color: #fff; border-color: transparent; }
+
+    /* reveal-on-scroll */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+    [data-reveal].is-revealed { opacity: 1; transform: none; }
+
+    /* Quick start */
+    .quickstart { margin-top: 4rem; }
+    .quickstart pre {
+      background: var(--code-bg);
+      padding: 1rem 1.2rem;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 0.5rem 0 1.5rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .quickstart code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+    /* back-to-top */
+    [data-back-to-top] {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      width: 2.75rem;
+      height: 2.75rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--fg);
+      cursor: pointer;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 200ms ease, transform 200ms ease;
+      z-index: 40;
+    }
+    [data-back-to-top].is-visible { opacity: 1; transform: none; pointer-events: auto; }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 3rem 1rem 1rem;
+      border-top: 1px solid var(--border);
+      margin-top: 4rem;
+      font-size: 0.9rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body, header[data-sticky-header], [data-theme-toggle],
+      [data-reveal], [data-back-to-top], .btn { transition: none; }
+      [data-theme-toggle]:hover, .btn:hover { transform: none; }
+    }
+
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+    /* ARIA live region visível só para leitores de tela (criada pelo copy-to-clipboard) */
+    #copy-to-clipboard-live { position: absolute; }
+  </style>
+</head>
+<body>
+  <div data-scroll-progress aria-hidden="true"></div>
+
+  <header data-sticky-header>
+    <div class="brand">js-snippets</div>
+    <div class="tools">
+      <a class="github" href="https://github.com/designfas/js-snippets">GitHub</a>
+      <button type="button" data-theme-toggle aria-label="Alternar tema">
+        <span class="moon" aria-hidden="true">🌙</span>
+        <span class="sun" aria-hidden="true">☀️</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>js-snippets</h1>
+      <p class="tagline">
+        11 mini bibliotecas JavaScript focadas em <strong>uma coisa só</strong>.
+        Zero dependências, acessíveis por padrão, código legível.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#snippets">Ver snippets</a>
+        <a class="btn" href="https://github.com/designfas/js-snippets">Ver no GitHub</a>
+        <a class="btn" href="#quick-start">Como usar</a>
+      </div>
+    </section>
+
+    <section class="philo" data-reveal>
+      <ul>
+        <li><strong>Uma feature por snippet</strong><span>Se precisa de outra, vira outro snippet.</span></li>
+        <li><strong>Zero dependências</strong><span>Sem jQuery, sem build, sem <code>node_modules</code>.</span></li>
+        <li><strong>Acessível por padrão</strong><span>Respeita <code>prefers-reduced-motion</code>, teclado, foco.</span></li>
+        <li><strong>Código legível</strong><span>Feito pra ler e estudar, não só usar.</span></li>
+      </ul>
+    </section>
+
+    <section class="snippets" id="snippets">
+      <h2>Snippets</h2>
+      <div class="grid">
+        <article class="card" data-reveal>
+          <h3>autoresize-textarea</h3>
+          <p class="desc">Textarea que cresce conforme o usuário digita, com limite opcional.</p>
+          <div class="meta"><span class="size">~2.6 KB</span></div>
+          <div class="actions">
+            <a href="./autoresize-textarea/demo.html">Demo</a>
+            <a href="./autoresize-textarea/README.md">Docs</a>
+            <button type="button" data-copy="https://cdn.jsdelivr.net/gh/designfas/js-snippets/autoresize-textarea/autoresize-textarea.js" data-copied-label="URL copiada!">Copiar CDN</button>
+          </div>
+        </article>
+
+        <article class="card" data-reveal>
+          <h3>back-to-top</h3>
+          <p class="desc">Botão flutuante "voltar ao topo" que aparece após X pixels de scroll.</p>
+          <div class="meta"><span class="size">~1.8 KB</span></div>
+          <div class="actions">
+            <a href="./back-to-top/demo.html">Demo</a>
+            <a href="./back-to-top/README.md">Docs</a>
+            <button type="button" data-copy="https://cdn.jsdelivr.net/gh/designfas/js-snippets/back-to-top/back-to-top.js" data-copied-label="URL copiada!">Copiar CDN</button>
+          </div>
+        </article>
+
+        <article class="card" data-reveal>
+          <h3>copy-to-clipboard</h3>
+          <p class="desc">Botão copiar com feedback visual e anúncio para leitor de tela.</p>
+          <div class="meta"><span class="size">~3.5 KB</span></div>
+          <div class="actions">
+            <a href="./copy-to-clipboard/demo.html">Demo</a>
+            <a href="./copy-to-clipboard/README.md">Docs</a>
+            <button type="button" data-copy="https://cdn.jsdelivr.net/gh/designfas/js-snippets/copy-to-clipboard/copy-to-clipboard.js" data-copied-label="URL copiada!">Copiar CDN</button>
+          </div>
+        </article>
+
+        <article class="card" data-reveal>
+          <h3>input-counter</h3>
+          <p class="desc">Contador de caracteres com <code>aria-live</code> para leitores de tela.</p>
+          <div class="meta"><span class="size">~2.8 KB</span></div>
+          <div class="actions">
+            <a href="./input-counter/demo.html">Demo</a>
+            <a href="./input-counter/README.md">Docs</a>
+            <button type="button" data-copy="https://cdn.jsdelivr.net/gh/designfas/js-snippets/input-counter/input-counter.js" data-copied-label="URL copiada!">Copiar CDN</button>
+          </div>
+        </article>
+
+        <article class="card" data-reveal>
+          <h3>reveal-on-scroll</h3>
+          <p class="desc">Anima elementos quando entram na viewport (os cards usam isso agora).</p>
+          <div class="meta"><span class="size">~2.0 KB</span></div>
+          <div class="actions">
+            <a href="./reveal-on-scroll/demo.html">Demo</a>
+            <a href="./reveal-on-scroll/README.md">Docs</a>
+            <button type="button" data-copy="https://cdn.jsdelivr.net/gh/designfas/js-snippets/reveal-on-scroll/reveal-on-scroll.js" data-copied-label="URL copiada!">Copiar CDN</button>
+          </div>
+        </article>
+
+        <article class="card" data-reveal>
+          <h3>scroll-progress</h3>
+          <p class="desc">Barra de progresso de leitura atualizada conforme o scroll (veja no topo).</p>
+          <div class="meta"><span class="size">~2.6 KB</span></div>
+          <div class="actions">
+            <a href="./scroll-progress/demo.html">Demo</a>
+            <a href="./scroll-progress/README.md">Docs</a>
+            <button type="button" data-copy="https://cdn.jsdelivr.net/gh/designfas/js-snippets/scroll-progress/scroll-progress.js" data-copied-label="URL copiada!">Copiar CDN</button>
+          </div>
+        </article>
+
+        <article class="card" data-reveal>
+          <h3>scroll-spy</h3>
+          <p class="desc">Marca o link de navegação correspondente à seção visível.</p>
+          <div class="meta"><span class="size">~2.9 KB</span></div>
+          <div class="actions">
+            <a href="./scroll-spy/demo.html">Demo</a>
+            <a href="./scroll-spy/README.md">Docs</a>
+            <button type="button" data-copy="https://cdn.jsdelivr.net/gh/designfas/js-snippets/scroll-spy/scroll-spy.js" data-copied-label="URL copiada!">Copiar CDN</button>
+          </div>
+        </article>
+
+        <article class="card" data-reveal>
+          <h3>smooth-scroll</h3>
+          <p class="desc">Rolagem suave em cliques de links âncora (usado nesta landing).</p>
+          <div class="meta"><span class="size">~3.7 KB</span></div>
+          <div class="actions">
+            <a href="./smooth-scroll/demo.html">Demo</a>
+            <a href="./smooth-scroll/README.md">Docs</a>
+            <button type="button" data-copy="https://cdn.jsdelivr.net/gh/designfas/js-snippets/smooth-scroll/smooth-scroll.js" data-copied-label="URL copiada!">Copiar CDN</button>
+          </div>
+        </article>
+
+        <article class="card" data-reveal>
+          <h3>sticky-header</h3>
+          <p class="desc">Header que some ao rolar para baixo e volta ao rolar para cima (em uso acima).</p>
+          <div class="meta"><span class="size">~2.2 KB</span></div>
+          <div class="actions">
+            <a href="./sticky-header/demo.html">Demo</a>
+            <a href="./sticky-header/README.md">Docs</a>
+            <button type="button" data-copy="https://cdn.jsdelivr.net/gh/designfas/js-snippets/sticky-header/sticky-header.js" data-copied-label="URL copiada!">Copiar CDN</button>
+          </div>
+        </article>
+
+        <article class="card" data-reveal>
+          <h3>tabs</h3>
+          <p class="desc">Tabs com ARIA Pattern, roving tabindex e navegação por teclado.</p>
+          <div class="meta"><span class="size">~4.2 KB</span></div>
+          <div class="actions">
+            <a href="./tabs/demo.html">Demo</a>
+            <a href="./tabs/README.md">Docs</a>
+            <button type="button" data-copy="https://cdn.jsdelivr.net/gh/designfas/js-snippets/tabs/tabs.js" data-copied-label="URL copiada!">Copiar CDN</button>
+          </div>
+        </article>
+
+        <article class="card" data-reveal>
+          <h3>theme-toggle</h3>
+          <p class="desc">Alterna claro/escuro sem FOUC (o botão no topo desta página é este).</p>
+          <div class="meta"><span class="size">~3.8 KB</span></div>
+          <div class="actions">
+            <a href="./theme-toggle/demo.html">Demo</a>
+            <a href="./theme-toggle/README.md">Docs</a>
+            <button type="button" data-copy="https://cdn.jsdelivr.net/gh/designfas/js-snippets/theme-toggle/theme-toggle.js" data-copied-label="URL copiada!">Copiar CDN</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="quickstart" id="quick-start" data-reveal>
+      <h2>Como usar</h2>
+      <p>Cada snippet é um arquivo <code>.js</code> independente. Você pode:</p>
+
+      <h3>1. Via CDN (jsDelivr)</h3>
+      <pre><code>&lt;script src="https://cdn.jsdelivr.net/gh/designfas/js-snippets/tabs/tabs.js"&gt;&lt;/script&gt;</code></pre>
+
+      <h3>2. Copiando o arquivo para o seu projeto</h3>
+      <pre><code>&lt;script src="./js/tabs.js"&gt;&lt;/script&gt;</code></pre>
+
+      <p>Todos auto-inicializam no <code>DOMContentLoaded</code> com defaults razoáveis.
+      Se quiser customizar, cada um expõe uma função <code>init(options)</code> que retorna
+      um <code>destroy()</code> — veja a documentação de cada snippet.</p>
+
+      <p style="color: var(--muted); font-size: 0.9rem;">
+        Dica: em produção, prefira fixar uma versão no jsDelivr
+        (<code>@v0.1.0</code>) quando houver releases publicadas.
+      </p>
+    </section>
+  </main>
+
+  <button type="button" data-back-to-top aria-label="Voltar ao topo" aria-hidden="true">↑</button>
+
+  <footer>
+    <p>MIT © <a href="https://github.com/designfas">Francismar Almeida (designfas)</a> e contribuidores.</p>
+    <p><a href="https://github.com/designfas/js-snippets/blob/main/CONTRIBUTING.md">Como contribuir</a> · <a href="https://github.com/designfas/js-snippets/issues/new?template=sugerir-snippet.md">Sugerir um snippet</a></p>
+  </footer>
+
+  <!-- Esta landing é um demo funcional de 7 dos 11 snippets trabalhando juntos -->
+  <script src="./scroll-progress/scroll-progress.js"></script>
+  <script src="./sticky-header/sticky-header.js"></script>
+  <script src="./smooth-scroll/smooth-scroll.js"></script>
+  <script src="./reveal-on-scroll/reveal-on-scroll.js"></script>
+  <script src="./copy-to-clipboard/copy-to-clipboard.js"></script>
+  <script src="./back-to-top/back-to-top.js"></script>
+</body>
+</html>
