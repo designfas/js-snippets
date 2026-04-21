@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>scroll-spy — Demo</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --fg: #e2e8f0;
+      --accent: #38bdf8;
+      --muted: #64748b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 3rem;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    nav[data-scroll-spy] {
+      position: sticky;
+      top: 2rem;
+      align-self: start;
+      border-left: 2px solid #1e293b;
+      padding-left: 1rem;
+    }
+    nav[data-scroll-spy] ul { list-style: none; margin: 0; padding: 0; }
+    nav[data-scroll-spy] li { margin: 0.4rem 0; }
+    nav[data-scroll-spy] a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 200ms ease;
+      display: block;
+      position: relative;
+    }
+    nav[data-scroll-spy] a.is-active {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    nav[data-scroll-spy] a.is-active::before {
+      content: '';
+      position: absolute;
+      left: -1.15rem;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--accent);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      nav[data-scroll-spy] a { transition: none; }
+    }
+
+    section { min-height: 80vh; padding: 2rem 0; }
+    h1 { font-size: 2.25rem; margin-top: 0; }
+    h2 { margin-top: 0; }
+
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+
+    @media (max-width: 640px) {
+      .layout { grid-template-columns: 1fr; }
+      nav[data-scroll-spy] { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav data-scroll-spy aria-label="Sumário">
+      <ul>
+        <li><a href="#intro">Introdução</a></li>
+        <li><a href="#instalacao">Instalação</a></li>
+        <li><a href="#uso">Uso</a></li>
+        <li><a href="#config">Configuração</a></li>
+        <li><a href="#fim">Fim</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="intro">
+        <h1>Introdução</h1>
+        <p>Role a página e veja o link correspondente à seção visível ser destacado
+        automaticamente no menu lateral.</p>
+      </section>
+
+      <section id="instalacao">
+        <h2>Instalação</h2>
+        <p>Copie <code>scroll-spy.js</code> e inclua com <code>&lt;script&gt;</code>.</p>
+      </section>
+
+      <section id="uso">
+        <h2>Uso</h2>
+        <p>Adicione <code>data-scroll-spy</code> na navegação e faça os links apontarem
+        para IDs das seções.</p>
+      </section>
+
+      <section id="config">
+        <h2>Configuração</h2>
+        <p>Ajuste o <code>rootMargin</code> para mudar onde a "linha de ativação" cai.</p>
+      </section>
+
+      <section id="fim">
+        <h2>Fim</h2>
+        <p>Último item — esse link deve ficar ativo quando você chegar aqui.</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="scroll-spy.js"></script>
+</body>
+</html>
