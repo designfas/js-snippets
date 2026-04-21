@@ -1,90 +1,56 @@
-# SmoothScroll-on-anchor
+# js-snippets
 
-Rolagem suave ao clicar em links âncora (`<a href="#secao">`).
-Vanilla JS, sem dependências, com suporte a acessibilidade e `prefers-reduced-motion`.
+Coleção de **mini bibliotecas JavaScript** focadas em uma coisa só. Sem dependências,
+sem build step, sem jQuery. Código feito pra ser lido, estudado e copiado.
 
-> Esta é a versão modernizada do script original (que dependia de jQuery).
-> Funciona em todos os navegadores modernos (Chrome, Firefox, Safari, Edge).
+## Filosofia
 
-## Recursos
+- **Uma feature por snippet.** Se precisa de outra coisa importante, vira outro snippet.
+- **Zero dependências** — nenhum polyfill, nenhuma toolchain, nenhum `node_modules`.
+- **Acessível por padrão** — respeita `prefers-reduced-motion`, gerencia foco,
+  funciona com teclado, preserva `Ctrl`/`Cmd`-click em links.
+- **Legível** — é para estudar, não só para usar.
+- **Compatível** com as últimas 2 versões de Chrome, Firefox, Safari e Edge.
 
-- Zero dependências (antes exigia jQuery)
-- Respeita `prefers-reduced-motion` para usuários com sensibilidade a movimento
-- Gerenciamento de foco para leitores de tela e navegação por teclado
-- Configurável globalmente ou por link via `data-*`
-- Atualiza a URL com `history.pushState` sem recarregar a página
-- Ignora cliques com `Ctrl`/`Cmd`/`Shift` (para abrir em nova aba funcionar normalmente)
+Cada snippet é um `.js` vanilla com UMD wrapper, auto-inicialização no
+`DOMContentLoaded` e uma função `init()` que retorna um `destroy`.
 
-## Uso rápido
+## Snippets
 
-Inclua o script no final do `<body>`:
+| Snippet                                    | O que faz                                                              | Tamanho |
+| ------------------------------------------ | ---------------------------------------------------------------------- | ------- |
+| [`smooth-scroll`](./smooth-scroll)         | Rolagem suave em cliques de links âncora (`<a href="#secao">`).        | ~3.7 KB |
+| [`reveal-on-scroll`](./reveal-on-scroll)   | Anima elementos `[data-reveal]` quando entram na viewport.             | ~2.0 KB |
+| [`back-to-top`](./back-to-top)             | Botão flutuante "voltar ao topo" que aparece após X pixels de scroll.  | ~1.8 KB |
 
-```html
-<script src="main.js"></script>
-```
+> Tamanhos são do arquivo bruto (não minificado, não gzipado).
 
-Pronto. Qualquer `<a href="#alguma-coisa">` na página passa a rolar suavemente
-até o elemento com `id="alguma-coisa"`.
+## Como usar
 
-## Configuração
-
-### Global
-
-```html
-<script src="main.js"></script>
-<script>
-  SmoothScrollOnAnchor.init({
-    offset: -80,      // compensação em pixels (negativo = parar acima do alvo)
-    duration: 600,    // duração da animação em ms (0 desativa a animação)
-    updateURL: true   // se deve atualizar a URL com o hash
-  });
-</script>
-```
-
-> Observação: o script auto-inicializa com os valores padrão. Chamar `init()`
-> novamente registra outro listener com as opções fornecidas.
-
-### Por link (data attributes)
+Cada pasta é independente. Copie apenas o `.js` do snippet que você quer para o
+seu projeto e inclua com uma `<script>`:
 
 ```html
-<a href="#contato" data-scroll-offset="-100" data-scroll-duration="400">
-  Contato
-</a>
+<script src="smooth-scroll.js"></script>
 ```
 
-## Acessibilidade
+Os snippets auto-inicializam com defaults razoáveis. Se quiser customizar, cada
+um expõe uma função `init(options)` — veja o `README.md` da pasta correspondente.
 
-- Respeita `prefers-reduced-motion: reduce` — nesse caso, a rolagem é instantânea.
-- Após a rolagem, o foco é movido para o elemento de destino. Se ele não tinha
-  `tabindex`, um `tabindex="-1"` temporário é adicionado e removido no `blur`.
+## Testando localmente
 
-## API
+Não há build. Basta servir a raiz do repositório:
 
-### `SmoothScrollOnAnchor.init(options?)`
-
-Registra o listener de cliques. Retorna uma função `destroy` para remover o listener:
-
-```js
-const destroy = SmoothScrollOnAnchor.init({ duration: 500 });
-// mais tarde…
-destroy();
+```bash
+python3 -m http.server 8080
 ```
 
-### Opções
+E abrir a demo de cada snippet:
 
-| Opção       | Tipo      | Padrão                                            | Descrição                                  |
-| ----------- | --------- | ------------------------------------------------- | ------------------------------------------ |
-| `offset`    | `number`  | `-200`                                            | Deslocamento vertical em pixels            |
-| `duration`  | `number`  | `1000`                                            | Duração da animação em ms                  |
-| `selector`  | `string`  | `a[href*="#"]:not([href="#"]):not([href="#0"])`   | Seletor dos links a interceptar            |
-| `updateURL` | `boolean` | `true`                                            | Atualiza a URL com `history.pushState`     |
-
-## Compatibilidade
-
-Requer suporte a `Promise`, `CSS.escape`, `closest`, `matchMedia` e
-`requestAnimationFrame` — disponíveis em todos os navegadores modernos.
-Para navegadores legados (IE11), use a versão original via `git log`.
+- `http://localhost:8080/smooth-scroll/demo.html`
+- `http://localhost:8080/reveal-on-scroll/demo.html`
+- `http://localhost:8080/back-to-top/demo.html`
 
 ## Licença
 
-[MIT](./LICENSE)
+[MIT](./LICENSE) © Francismar Almeida (designfas) e contribuidores.
