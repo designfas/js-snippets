@@ -1,7 +1,15 @@
 # js-snippets
 
-Coleção de **mini bibliotecas JavaScript** focadas em uma coisa só. Sem dependências,
-sem build step, sem jQuery. Código feito pra ser lido, estudado e copiado.
+> **11 mini bibliotecas JavaScript sem dependências**, focadas em uma coisa
+> só, acessíveis por padrão, com código legível. Feitas pra usar, estudar e
+> copiar.
+
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Snippets](https://img.shields.io/badge/snippets-11-38bdf8)](#snippets)
+[![No dependencies](https://img.shields.io/badge/dependencies-0-success)](#filosofia)
+[![jsDelivr](https://img.shields.io/jsdelivr/gh/hm/designfas/js-snippets?color=orange)](https://www.jsdelivr.com/package/gh/designfas/js-snippets)
+
+🔗 **[Ver todas as demos →](https://designfas.github.io/js-snippets/)**
 
 ## Filosofia
 
@@ -35,15 +43,32 @@ Cada snippet é um `.js` vanilla com UMD wrapper, auto-inicialização no
 
 ## Como usar
 
-Cada pasta é independente. Copie apenas o `.js` do snippet que você quer para o
-seu projeto e inclua com uma `<script>`:
+### Via CDN (jsDelivr)
+
+Nenhum setup. Cole no seu HTML:
 
 ```html
-<script src="smooth-scroll.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/designfas/js-snippets/tabs/tabs.js"></script>
 ```
 
-Os snippets auto-inicializam com defaults razoáveis. Se quiser customizar, cada
-um expõe uma função `init(options)` — veja o `README.md` da pasta correspondente.
+Troque `tabs/tabs.js` pelo snippet que quiser. Em produção, prefira fixar a
+versão quando houver releases:
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/designfas/js-snippets@v0.1.0/tabs/tabs.js"></script>
+```
+
+### Copiando o arquivo
+
+Clone ou baixe o repo e copie só o `.js` do snippet que você quer:
+
+```html
+<script src="./js/tabs.js"></script>
+```
+
+Todos auto-inicializam com defaults razoáveis. Se quiser customizar, cada
+um expõe uma função `init(options)` — veja o `README.md` da pasta
+correspondente.
 
 ## Testando localmente
 
@@ -53,8 +78,17 @@ Não há build. Basta servir a raiz do repositório:
 python3 -m http.server 8080
 ```
 
-E abrir a demo de cada snippet em `http://localhost:8080/<snippet>/demo.html`,
-por exemplo `http://localhost:8080/smooth-scroll/demo.html`.
+Acesse `http://localhost:8080/` para a landing da coleção, ou vá direto a
+uma demo como `http://localhost:8080/smooth-scroll/demo.html`.
+
+## Contribuindo
+
+Sugestões e PRs são muito bem-vindos. Antes de abrir um PR novo, dê uma
+olhada em [**CONTRIBUTING.md**](./CONTRIBUTING.md) — ele explica o que eu
+aceito como snippet e o padrão de código/documentação.
+
+Para sugerir um snippet novo, abra uma
+[**issue usando o template "Sugerir snippet"**](https://github.com/designfas/js-snippets/issues/new?template=sugerir-snippet.md).
 
 ## Licença
 
